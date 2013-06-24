@@ -1,0 +1,315 @@
+% ----------------------------------------------------------------
+% quthesisDJ.sty *************************************************
+%
+% A modified version of quthesis.sty
+% ----------------------------------------------------------------
+%
+% Modified by Dean Jin, 24-Aug-2003 to:
+% - add the Preface, Acknowledgements, List of Figures and List of
+%   Tables to the Table of Contents (many thanks to Sean Chen for
+%   his original idea on how to do this)
+% - correct the improper margin (less than the required 1 inch) on
+%   pages where the number is centered on the bottom (like the 1st
+%   page of each chapter, etc.)
+% - update the documentation to reflect the proper way to use this
+%   file with LaTeX 2e (slight modification in "Examples of use")
+% ----------------------------------------------------------------
+% Queen's University thesis style as changed by Bob Burke from...
+%------------------------------------------------------------------------------
+% Stanford University PhD thesis style -- modifications to the report style
+% For LaTeX version 2.09
+%
+% edit Tue Sep 13 14:40:26 1988
+% edit by Joseph Pallas
+%
+% edit May 2013
+% edit by Kevin Hughes
+%------------------------------------------------------------------------------
+
+\typeout{Document Style Option `quthesisDJ' <24-Aug-2003>.}
+
+\long\def\comment#1{}
+\comment{
+
+Example of use:
+
+    \documentclass[12pt]{report} % or could use `book' style
+
+    \usepackage{quthesisDJ}
+
+    \begin{document}
+    \title{How to Write Theses\\
+        With Two Line Titles}
+    \author{John Henry Candidate}
+
+    \beforepreface
+    \prefacesection{Preface}
+        This thesis tells you all you need to know about...
+    \prefacesection{Acknowledgments}
+        I would like to thank...
+    \afterpreface
+
+    \chapter{Introduction}
+         ...
+    \chapter{Conclusions}
+         ...
+    \bibliographystyle{plain}
+    \bibliography{mybib}
+         ...
+    \appendix
+    \chapter{A Long Proof}
+        ...
+    \chapter*{Vita}
+    \end{document}
+
+
+Documentation:
+
+    This style file modifies the standard report or book styles to
+    follow the School of Graduate Studies and Research's "General Form
+    of Thesis."  It sets the margins and interline spacing and disallows
+    page breaks at hyphens.
+
+    The \beforepreface command creates the title page.  Then the user
+    should put preface section(s), using the command:
+
+        \prefacesection{section title}
+
+    The \afterpreface command then produces the tables of contents,
+    tables and figures, and sets things up to start the main body (on
+    arabic page 1).
+
+    The following commands can control what goes in the front matter
+    material:
+
+    \title{thesis title}
+    \author{author's name}
+    \dept{author's department}
+        - Electrical and Computer Engineering if omitted
+    \degree{degree expected}
+        - Master of Science if omitted
+    \submitdate{month year in which submitted to GPO}
+        - date LaTeX'd if omitted
+    \copyrightyear{year degree conferred}
+        - year LaTeX'd if omitted
+    \glossarypagetrue or \glossarypagetrue
+        - produce or don't produce a Glossary page
+          (false by default)        
+    \symbolspagetrue or \symbolspagefalse
+        - produce or don't produce a List of Symbols page
+          (false by default)
+    \figurespagetrue or \figurespagefalse
+        - produce or don't produce a List of Figures page
+          (true by default)
+    \tablespagetrue or \tablespagefalse
+        - produce or don't produce a List of Tables page
+          (true by default)
+    \listingspagetrue or \listingspagefalse
+        - produce or don't produce a List of Listings page
+          (true by default)
+
+    This style uses double spacing, except in the figure and table
+    environments where normal spacing is used.  That can be changed by
+    doing:
+
+        \renewcommand{\baselinestretch}{1.6}
+
+    (or whatever you want instead of 1.6) Unfortunately, that
+    command probably won't take effect unless it comes before the
+    \begin{document} or before something like \small\normalsize.
+
+    The example above shows the 12pt substyle being used.  This
+    seems to give acceptable looking results, but it may be omitted
+    to get smaller print.
+}
+
+\usepackage{fancyhdr}
+
+% First thing we do is make sure that report has been loaded.  A
+% common error is to try to use quthesis as a documentstyle.
+\@ifundefined{chapter}{\@latexerr{The `quthesis' option should be used
+with the `report' or `book' document styles}{You should probably read the
+quthesis documentation.}}{}
+
+% We need 1" margins except on the binding edge, where it is 1 1/2"
+% Theses are single-sided, so we don't care about \evensidemargin
+\oddsidemargin 0.5in \evensidemargin 0in
+\marginparwidth 40pt \marginparsep 10pt
+\topmargin 0pt \headsep .5in
+\textheight 8.1in \textwidth 6in
+
+% Fixes the less than 1 inch at the bottom of the page problem
+\footskip 20pt
+
+% Disallow page breaks at hyphens (this will give some underfull vbox's,
+% so an alternative is to use \brokenpenalty=100 and manually search
+% for and fix such page breaks)
+\brokenpenalty=10000
+
+%---Set up double spacing (code taken from setspace.sty)
+\ifcase \@ptsize \relax % 10pt
+    \def\baselinestretch{1.667}
+  \or % 11pt
+    \def\baselinestretch{1.618}
+  \or % 12pt
+    \def\baselinestretch{1.655}
+  \fi
+ 
+% removes the unnecessary white space around figs   
+\renewcommand{\topfraction}{0.85}
+\renewcommand{\textfraction}{0.1}
+\renewcommand{\floatpagefraction}{0.75}
+
+% Redefine the macro used for floats (including figures and tables)
+% so that single spacing is used.
+% (Note \def\figure{\@float{figure}set single spacing} doesn't work
+% because figure has an optional argument)
+%\def\@xfloat#1[#2]{\ifhmode \@bsphack\@floatpenalty -\@Mii\else
+%   \@floatpenalty-\@Miii\fi\def\@captype{#1}\ifinner
+%      \@parmoderr\@floatpenalty\z@
+%    \else\@next\@currbox\@freelist{\@tempcnta\csname ftype@#1\endcsname
+%       \multiply\@tempcnta\@xxxii\advance\@tempcnta\sixt@@n
+%       \@tfor \@tempa :=#2\do
+%                        {\if\@tempa h\advance\@tempcnta \@ne\fi
+%                         \if\@tempa t\advance\@tempcnta \tw@\fi
+%                         \if\@tempa b\advance\@tempcnta 4\relax\fi
+%                         \if\@tempa p\advance\@tempcnta 8\relax\fi
+%         }\global\count\@currbox\@tempcnta}\@fltovf\fi
+%    \global\setbox\@currbox\vbox\bgroup
+%    \def\baselinestretch{1}\@normalsize
+%    \boxmaxdepth\z@
+%    \hsize\columnwidth \@parboxrestore}
+
+% Redefine the macro used for footnotes to use single spacing
+\long\def\@footnotetext#1{\insert\footins{\def\baselinestretch{1}\footnotesize
+    \interlinepenalty\interfootnotelinepenalty
+    \splittopskip\footnotesep
+    \splitmaxdepth \dp\strutbox \floatingpenalty \@MM
+    \hsize\columnwidth \@parboxrestore
+   \edef\@currentlabel{\csname p@footnote\endcsname\@thefnmark}\@makefntext
+    {\rule{\z@}{\footnotesep}\ignorespaces
+      #1\strut}}}
+
+% \author, \title, \dept, \degree are defined in report;
+% here are the rest of the front matter defining macros
+\def\dept#1{\gdef\@dept{#1}}
+\def\degree#1{\gdef\@degree{#1}}
+\def\submitdate#1{\gdef\@submitdate{#1}}
+\def\copyrightyear#1{\gdef\@copyrightyear{#1}} % \author, \title in report
+\def\@title{}\def\@author{}
+\def\@dept{Department of Electrical and Computer Engineering}
+\def\@degree{Master of Science}
+\def\@submitdate{\ifcase\the\month\or
+  January\or February\or March\or April\or May\or June\or
+  July\or August\or September\or October\or November\or December\fi
+  \space \number\the\year}
+\def\@copyrightyear{\number\the\year}
+\newif\ifglosspage \newif\ifsymbolspage \newif\iffigurespage \newif\iftablespage \newif\iflistingspage
+\glosspagefalse \symbolspagefalse \figurespagetrue \tablespagetrue \listingspagetrue
+
+
+\def\titlep{%
+    \thispagestyle{empty}%
+    \begin{center}
+        {\Large\sc\@title}\\
+        \mbox{}\\
+        \mbox{}\\
+        by\\
+        \mbox{}\\
+        \mbox{}\\
+        {\large\sc\@author}\\
+    \end{center}
+    \mbox{}
+    \begin{center}
+        A thesis submitted to the\\
+        \@dept\\
+        in conformity with the requirements for\\
+        the degree of \@degree\\
+    \end{center}
+    \mbox{}
+    \begin{center}
+        Queen's University\\
+        Kingston, Ontario, Canada\\
+        \@submitdate\\
+    \end{center}
+    \mbox{}
+    \begin{center}
+        Copyright \copyright\ \@author, \@copyrightyear
+    \end{center}\clearpage}
+
+\def\beforepreface{
+    \titlep
+    \pagenumbering{roman}
+    \pagestyle{plain}}
+
+\def\prefacesection#1{%
+    \clearpage
+    \phantomsection
+    \addcontentsline{toc}{chapter}{#1}
+    \chapter*{#1}}
+
+\def\afterpreface{\clearpage
+    %\pagenumbering{roman}
+    \phantomsection
+    \addcontentsline{toc}{chapter}{Contents}
+    \tableofcontents
+    \doublespacing
+    \clearpage
+    \ifglosspage
+       \phantomsection
+        \addcontentsline{toc}{chapter}{Glossary}
+        \renewcommand{\glossaryname}{Glossary}
+        \printglossaries
+        \clearpage
+    \fi    
+    \ifsymbolspage
+       \phantomsection
+        \addcontentsline{toc}{chapter}{List of Symbols}
+        \renewcommand{\nomname}{List of Symbols}
+        \printnomenclature
+        \clearpage
+    \fi
+    \iffigurespage
+	   \phantomsection
+        \addcontentsline{toc}{chapter}{List of Figures}
+        \listoffigures
+        \clearpage
+    \fi
+    \iflistingspage
+	   \phantomsection
+        \addcontentsline{toc}{chapter}{List of Code Listings}
+	    \renewcommand\lstlistlistingname{List of Code Listings}
+		\makeatletter
+		\let\my@chapter\@chapter
+		\renewcommand*{\@chapter}{%
+		  \addtocontents{lol}{\protect\addvspace{10pt}}%
+		  \my@chapter}
+		\makeatother
+        \lstlistoflistings
+        \clearpage
+    \fi
+    \iftablespage
+	   \phantomsection
+        \addcontentsline{toc}{chapter}{List of Tables}
+        \listoftables
+        \clearpage
+    \fi
+    \pagenumbering{arabic}
+    \pagestyle{fancyplain}
+    \fancyhf{}
+    \setlength{\headheight}{15pt}
+    \renewcommand{\headrulewidth}{0.5pt}
+    \renewcommand{\footrulewidth}{0pt}
+    \lhead{\bfseries{\rightmark}}
+    \rhead{\bfseries{\thepage}}
+}
+% Redefine \thebibliography to go to a new page and put an entry in the
+% table of contents
+\let\@ldthebibliography\thebibliography
+\renewcommand{\thebibliography}[1]{\clearpage
+    \addcontentsline{toc}{chapter}{Bibliography}
+    \@ldthebibliography{#1}}
+
+% Start out normal
+%\pagestyle{headings}
+

@@ -1,0 +1,147 @@
+%*******************************************************************************
+% Preamble
+%*******************************************************************************
+% Instead of inserting \usepackage and defined commands here, they are in a separate file
+\input{0_Preamble}
+
+% Change the author name and pdf title in the preamble line 235
+
+%*******************************************************************************
+% DOCUMENT
+%*******************************************************************************
+
+\begin{document}
+
+%*******************************************************************************
+% TITLE
+%*******************************************************************************
+
+\title{Thesis Title}
+
+\author{Kevin Hughes}
+
+\dept{Faculty of Electrical and Computer Engineering}
+\degree{Master of Applied Science}
+
+% ~~~~~~~~~~~~~
+%\submitdate{June 2013}
+%        - date LaTeX'd if omitted
+%\copyrightyear{2013}
+%        - year LaTeX'd if omitted
+
+\beforepreface
+
+%*******************************************************************************
+% ABSTRACT
+%*******************************************************************************
+
+\prefacesection{Abstract}
+Abstract
+
+%*******************************************************************************
+% ACKNOWLEDGEMENTS
+%*******************************************************************************
+
+\phantomsection
+\prefacesection{Acknowledgements}
+Acknowledge some people here
+
+\clearpage % keep this for proper page numbering!
+
+%*******************************************************************************
+% STATEMENT OF ORIGINALITY (required CHEM, CISC, GEOL, MATH, PHYS (Ph.D. only))
+%*******************************************************************************
+
+%\phantomsection
+%Statement of Originality goes here if required
+%\clearpage
+
+%*******************************************************************************
+% Table of Contents
+%*******************************************************************************
+% The Table of Contents and the following sections up until the main chapters are generated
+% by code in the quthesis.sty file particularly \def\afterpreface... around line 248
+
+%*******************************************************************************
+% Glossary
+%*******************************************************************************
+% make sure Glossary Packages etc. are uncommented in 0_Preamble.tex
+\glosspagetrue
+\include{Glossary}
+
+%*******************************************************************************
+% List of Symbols
+%*******************************************************************************
+% make sure List of Symbols Packages etc. are uncommented in 0_Preamble.tex
+\symbolspagetrue
+
+%*******************************************************************************
+% List of Figures
+%*******************************************************************************
+\figurespagetrue
+
+%*******************************************************************************
+% List of Code Listings
+%*******************************************************************************
+\listingspagetrue
+
+%*******************************************************************************
+% List of Tables
+%*******************************************************************************
+\tablespagetrue
+
+%*******************************************************************************
+% CHAPTERS
+%*******************************************************************************
+\singlespacing \afterpreface \doublespacing
+
+% This command can be used to view the page layout for this document
+% \layout
+
+% Here, I'm tweaking how much space is put above and below floats.
+% Comment out if you want the *purest* latex spacing.
+%\setlength{\abovedisplayskip}{3pt plus1pt minus1pt}
+%\setlength{\abovedisplayshortskip}{3pt plus1pt minus1pt}
+%\setlength{\belowdisplayskip}{3pt plus1pt minus1pt}
+%\setlength{\belowdisplayshortskip}{3pt plus1pt minus1pt}
+
+
+% Include chapters - kept separated to make editing easier.
+\include{1_Introduction}
+\include{2_Background}
+\include{3_Methods}
+\include{4_Results}
+\include{5_Conclusions}
+
+%*******************************************************************************
+% BIBLIOGRAPHY
+%*******************************************************************************
+
+% Put in \nocite{*} so all entries in the bibliography are included
+% \nocite{*}
+
+\phantomsection
+\bibliographystyle{plain}
+\bibliography{references/references}
+
+%*******************************************************************************
+% APPENDICES
+%*******************************************************************************
+%\updatechaptername
+%\appendixpage
+%\appendix
+
+%\include{6_Appendices}
+
+%*******************************************************************************
+% INDEX
+%*******************************************************************************
+% Here's where the index would be printed, if you created one.  Default: no.
+% Remove the % on the next line to enable.
+%\printindex
+
+
+%********************t***********************************************************
+% End DOCUMENT
+%*******************************************************************************
+\end{document}
