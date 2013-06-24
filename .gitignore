@@ -20,4 +20,9 @@
 *.mtc
 *.mtc1
 *.out
+*.cb
+*.cb2
+*.lol
+*.nlo
+*.nls
 *.synctex.gz
